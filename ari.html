@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Recommendation</title>
+    <link rel="stylesheet" href="ari.css">
+</head>
+
+<body>
+    <header>
+        <div class="contai">
+            <nav>
+                <ul class="keterangan">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="header-content">
+            <div class="header-left">
+                <img src="logo.png" alt="Logo PT. TRUST UNIFIED SYSTEM" class="header-logo">
+                <h4>PT. TRUST UNIFIED SYSTEM </h4>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="container">
+        <h1>Sistem Pakar <br>
+            Pemilihan Rekomendasi Jenis Training</h1>
+
+        <div id="recommendation"></div>
+        <button id="restart" style="display: none;" onclick="restart()">Restart</button>
+        <button id="start" onclick="startTraining()">Start</button>
+
+
+        <script>
+            let isIT, likesIT, itField, rplPart, tkjPart, hasDatabaseSkills, wantsToImproveDatabase, hasDevSkills, wantsToImproveDev, hasNetworkSecuritySkills, wantsToImproveNetworkSecurity, hasNetworkBasicsSkills, wantsToImproveNetworkBasics;
+
+            function startTraining() {
+                document.getElementById("start").style.display = "none";
+                document.getElementById("it-question").style.display = "block";
+            }
+
+            function itQuestion() {
+                isIT = document.getElementById("it-answer").value;
+                if (isIT.toLowerCase() !== "ya") {
+                    document.getElementById("recommendation").textContent = "Maaf, sistem ini hanya untuk bidang IT.";
+                    document.getElementById("restart").style.display = "inline";
+                    return;
+                }
+                document.getElementById("it-question").style.display = "none";
+                document.getElementById("likes-it-question").style.display = "block";
+            }
+
+            function restart() {
+                document.getElementById("restart").style.display = "none";
+                document.getElementById("recommendation").textContent = "";
+                document.getElementById("it-question").style.display = "block";
+                document.getElementById("likes-it-question").style.display = "none";
+                document.getElementById("it-field-question").style.display = "none";
+                document.getElementById("rpl-part-question").style.display = "none";
+                document.getElementById("has-db-skills-question").style.display = "none";
+                document.getElementById("wants-to-improve-db-question").style.display = "none";
+                document.getElementById("has-dev-skills-question").style.display = "none";
+                document.getElementById("wants-to-improve-dev-question").style.display = "none";
+                document.getElementById("tkj-part-question").style.display = "none";
+                document.getElementById("has-network-security-skills-question").style.display = "none";
+                document.getElementById("wants-to-improve-network-security-question").style.display = "none";
+                document.getElementById("has-network-basics-skills-question").style.display = "none";
+                document.getElementById("wants-to-improve-network-basics-question").style.display = "none";
+            }
+
+            function likesItQuestion() {
+                likesIT = document.getElementById("likes-it-answer").value;
+                if (likesIT.toLowerCase() !== "ya") {
+                    document.getElementById("recommendation").textContent = "Maaf, sistem ini hanya untuk orang yang suka IT.";
+                    document.getElementById("restart").style.display = "inline";
+                    return;
+                }
+                document.getElementById("likes-it-question").style.display = "none";
+                document.getElementById("it-field-question").style.display = "block";
+            }
+
+            function itFieldQuestion() {
+                itField = document.getElementById("it-field-answer").value;
+                if (itField.toLowerCase() === "rpl") {
+                    document.getElementById("it-field-question").style.display = "none";
+                    document.getElementById("rpl-part-question").style.display = "block";
+                } else if (itField.toLowerCase() === "tkj") {
+                    document.getElementById("it-field-question").style.display = "none";
+                    document.getElementById("tkj-part-question").style.display = "block";
+                } else {
+                    document.getElementById("recommendation").textContent = "Maaf, kami hanya menyediakan rekomendasi untuk bidang RPL atau TKJ.";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function rplPartQuestion() {
+                rplPart = document.getElementById("rpl-part-answer").value;
+                if (rplPart.toLowerCase() === "mengolah data") {
+                    document.getElementById("rpl-part-question").style.display = "none";
+                    document.getElementById("has-db-skills-question").style.display = "block";
+                } else if (rplPart.toLowerCase() === "pengembangan") {
+                    document.getElementById("rpl-part-question").style.display = "none";
+                    document.getElementById("has-dev-skills-question").style.display = "block";
+                } else {
+                    document.getElementById("recommendation").textContent = "Maaf, kami hanya menyediakan rekomendasi untuk bagian mengolah data atau pengembangan di bidang RPL.";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function hasDbSkillsQuestion() {
+                hasDatabaseSkills = document.getElementById("has-db-skills-answer").value;
+                if (hasDatabaseSkills.toLowerCase() === "ya") {
+                    document.getElementById("has-db-skills-question").style.display = "none";
+                    document.getElementById("wants-to-improve-db-question").style.display = "block";
+                } else {
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Basis Data dan Business Intelligence";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function wantsToImproveDbQuestion() {
+                wantsToImproveDatabase = document.getElementById("wants-to-improve-db-answer").value;
+                if (wantsToImproveDatabase.toLowerCase() === "ya") {
+                    document.getElementById("wants-to-improve-db-question").style.display = "none";
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Basis Data dan Business Intelligence";
+                    document.getElementById("restart").style.display = "inline";
+                } else {
+                    document.getElementById("recommendation").textContent = "Baik, terima kasih.";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function hasDevSkillsQuestion() {
+                hasDevSkills = document.getElementById("has-dev-skills-answer").value;
+                if (hasDevSkills.toLowerCase() === "ya") {
+                    document.getElementById("has-dev-skills-question").style.display = "none";
+                    document.getElementById("wants-to-improve-dev-question").style.display = "block";
+                } else {
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Pemrograman dan Pengembangan Aplikasi";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function wantsToImproveDevQuestion() {
+                wantsToImproveDev = document.getElementById("wants-to-improve-dev-answer").value;
+                if (wantsToImproveDev.toLowerCase() === "ya") {
+                    document.getElementById("wants-to-improve-dev-question").style.display = "none";
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Pemrograman dan Pengembangan Aplikasi";
+                    document.getElementById("restart").style.display = "inline";
+                } else {
+                    document.getElementById("recommendation").textContent = "Baik, terima kasih.";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function tkjPartQuestion() {
+                tkjPart = document.getElementById("tkj-part-answer").value;
+
+                if (tkjPart.toLowerCase() === "keamanan jaringan") {
+                    document.getElementById("tkj-part-question").style.display = "none";
+                    document.getElementById("has-network-security-skills-question").style.display = "block";
+                } else if (tkjPart.toLowerCase() === "dasar-dasar jaringan") {
+                    document.getElementById("tkj-part-question").style.display = "none";
+                    document.getElementById("has-network-basics-skills-question").style.display = "block";
+                } else {
+                    document.getElementById("recommendation").textContent = "Maaf, kami hanya menyediakan rekomendasi untuk bagian jaringan atau komputer di bidang TKJ.";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function hasNetworkSecuritySkillsQuestion() {
+                hasNetworkSecuritySkills = document.getElementById("has-network-security-skills-answer").value;
+
+                if (hasNetworkSecuritySkills.toLowerCase() === "ya") {
+                    document.getElementById("has-network-security-skills-question").style.display = "none";
+                    document.getElementById("wants-to-improve-network-security-question").style.display = "block";
+                } else {
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Keamanan Jaringan";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function wantsToImproveNetworkSecurityQuestion() {
+                wantsToImproveNetworkSecurity = document.getElementById("wants-to-improve-network-security-answer").value;
+
+                if (wantsToImproveNetworkSecurity.toLowerCase() === "ya") {
+                    document.getElementById("wants-to-improve-network-security-question").style.display = "none";
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Keamanan Jaringan";
+                    document.getElementById("restart").style.display = "inline";
+                } else {
+                    document.getElementById("recommendation").textContent = "Baik, terima kasih.";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function hasNetworkBasicsSkillsQuestion() {
+                hasNetworkBasicsSkills = document.getElementById("has-network-basics-skills-answer").value;
+
+                if (hasNetworkBasicsSkills.toLowerCase() === "ya") {
+                    document.getElementById("has-network-basics-skills-question").style.display = "none";
+                    document.getElementById("wants-to-improve-network-basics-question").style.display = "block";
+                } else {
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Jaringan Komputer Dasar";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+
+            function wantsToImproveNetworkBasicsQuestion() {
+                wantsToImproveNetworkBasics = document.getElementById("wants-to-improve-network-basics-answer").value;
+
+                if (wantsToImproveNetworkBasics.toLowerCase() === "ya") {
+                    document.getElementById("wants-to-improve-network-basics-question").style.display = "none";
+                    document.getElementById("recommendation").textContent = "Rekomendasi training: Training Jaringan Komputer Dasar";
+                    document.getElementById("restart").style.display = "inline";
+                } else {
+                    document.getElementById("recommendation").textContent = "Baik, terima kasih.";
+                    document.getElementById("restart").style.display = "inline";
+                }
+            }
+            // Add more functions for other questions...
+
+            // Finally, display the recommendation
+            function displayRecommendation() {
+                document.getElementById("recommendation").textContent = "Rekomendasi training: ...";
+            }
+
+        </script>
+
+        <!-- Add HTML elements for each question -->
+
+        <div class="teks">
+            <div id="it-question" style="display: none;">
+                <p>Apakah Anda seorang IT?</p>
+                <input type="text" id="it-answer" placeholder="Ya atau Tidak">
+                <button onclick="itQuestion()">Next</button>
+            </div>
+
+            <div id="likes-it-question" style="display: none;">
+                <p>Apakah Anda suka IT?</p>
+                <input type="text" id="likes-it-answer" placeholder="Ya atau Tidak">
+                <button onclick="likesItQuestion()">Next</button>
+            </div>
+
+            <div id="it-field-question" style="display: none;">
+                <p>Bidang IT apa yang Anda sukai?</p>
+                <input type="text" id="it-field-answer" placeholder="RPL/TKJ">
+                <button onclick="itFieldQuestion()">Next</button>
+            </div>
+
+            <div id="rpl-part-question" style="display: none;">
+                <p>Bagian apa yang Anda minati di bidang RPL?</p>
+                <input type="text" id="rpl-part-answer" placeholder="mengolah data/pengembangan">
+                <button onclick="rplPartQuestion()">Next</button>
+            </div>
+
+            <div id="has-db-skills-question" style="display: none;">
+                <p>Apakah Anda memiliki keterampilan basis data?</p>
+                <input type="text" id="has-db-skills-answer" placeholder="Ya atau Tidak">
+                <button onclick="hasDbSkillsQuestion()">Next</button>
+            </div>
+
+            <div id="wants-to-improve-db-question" style="display: none;">
+                <p>Apakah Anda ingin meningkatkan keterampilan basis data Anda?</p>
+                <input type="text" id="wants-to-improve-db-answer" placeholder="Ya atau Tidak">
+                <button onclick="wantsToImproveDbQuestion()">Next</button>
+            </div>
+
+            <div id="has-dev-skills-question" style="display: none;">
+                <p>Apakah Anda memiliki keterampilan pengembangan?</p>
+                <input type="text" id="has-dev-skills-answer" placeholder="Ya atau Tidak">
+                <button onclick="hasDevSkillsQuestion()">Next</button>
+            </div>
+
+            <div id="wants-to-improve-dev-question" style="display: none;">
+                <p>Apakah Anda ingin meningkatkan keterampilan pengembangan Anda?</p>
+                <input type="text" id="wants-to-improve-dev-answer" placeholder="Ya atau Tidak">
+                <button onclick="wantsToImproveDevQuestion()">Next</button>
+            </div>
+
+            <div id="recommendation" style="display: none;"></div>
+            <button id="restart" style="display: none;">Restart</button>
+
+            <div id="tkj-part-question" style="display: none;">
+                <label for="tkj-part-answer">Di TKJ, bagian apa yang Anda sukai? (keamanan jaringan/dasar-dasar
+                    jaringan)</label>
+                <input type="text" id="tkj-part-answer" placeholder="keamanan jaringan atau dasar-dasar jaringan">
+                <button onclick="tkjPartQuestion()">Next</button>
+            </div>
+
+            <div id="has-network-security-skills-question" style="display: none;">
+                <label for="has-network-security-skills-answer">Apakah anda sudah memiliki keterampilan keamanan
+                    jaringan?</label>
+                <input type="text" id="has-network-security-skills-answer" placeholder="Ya atau Tidak">
+                <button onclick="hasNetworkSecuritySkillsQuestion()">Next</button>
+            </div>
+
+            <div id="wants-to-improve-network-security-question" style="display: none;">
+                <label for="wants-to-improve-network-security-answer">Apakah anda ingin meningkatkan keterampilan
+                    keamanan
+                    jaringan anda?</label>
+                <input type="text" id="wants-to-improve-network-security-answer" placeholder="Ya atau Tidak">
+                <button onclick="wantsToImproveNetworkSecurityQuestion()">Next</button>
+            </div>
+
+            <div id="has-network-basics-skills-question" style="display: none;">
+                <label for="has-network-basics-skills-answer">Apakah anda sudah memiliki keterampilan jaringan komputer
+                    dasar?</label>
+                <input type="text" id="has-network-basics-skills-answer" placeholder="Ya atau Tidak">
+                <button onclick="hasNetworkBasicsSkillsQuestion()">Next</button>
+            </div>
+
+            <div id="wants-to-improve-network-basics-question" style="display: none;">
+                <label for="wants-to-improve-network-basics-answer">Apakah anda ingin meningkatkan keterampilan jaringan
+                    komputer dasar anda?</label>
+                <input type="text" id="wants-to-improve-network-basics-answer" placeholder="Ya atau Tidak">
+                <button onclick="wantsToImproveNetworkBasicsQuestion()">Next</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <footer>
+        <p>&copy; 2024 Ari Gunawan Giawa. All rights reserved.</p>
+    </footer>
+
+    <!-- Add more HTML elements for each question... -->
+</body>
+
+</html>
